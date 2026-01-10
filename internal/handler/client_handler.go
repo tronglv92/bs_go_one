@@ -7,7 +7,8 @@ import (
 )
 
 type ClientHandler interface {
-	List() http.HandlerFunc
+	Detail() http.HandlerFunc
+	Health() http.HandlerFunc
 }
 
 type clientHandler struct {
@@ -20,10 +21,18 @@ func NewClientHandler(reg *registry.ServiceContext) ClientHandler {
 	}
 }
 
-func (p *clientHandler) List() http.HandlerFunc {
+func (p *clientHandler) Detail() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		resp := map[string]string{
-			"hello": "hello",
+			"message": "hello",
+		}
+		response.OkJson(r.Context(), w, resp, nil)
+	}
+}
+func (p *clientHandler) Health() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		resp := map[string]string{
+			"status": "up",
 		}
 		response.OkJson(r.Context(), w, resp, nil)
 	}

@@ -28,9 +28,7 @@ func (h RestHandler) Register(svr *rest.Server) {
 }
 func registerClientHandler(svr *rest.Server, svc *registry.ServiceContext) {
 	h := NewClientHandler(svc)
-	var (
-		path = "/test"
-	)
+
 	svr.AddRoutes(
 		rest.WithMiddlewares(
 			[]rest.Middleware{
@@ -39,8 +37,13 @@ func registerClientHandler(svr *rest.Server, svc *registry.ServiceContext) {
 			[]rest.Route{
 				{
 					Method:  http.MethodGet,
-					Path:    path,
-					Handler: h.List(),
+					Path:    "/detail",
+					Handler: h.Detail(),
+				},
+				{
+					Method:  http.MethodGet,
+					Path:    "/health",
+					Handler: h.Health(),
 				},
 			}...,
 		),
