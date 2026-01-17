@@ -12,3 +12,10 @@ else
 	@echo "Unsupported operating system: $(OS)"
 endif
 endif
+
+#docker-rune:
+#	docker run \
+#      -p 8080:8000 \
+#      -e SERVER_PORT=8000 \
+#      go-one:v1 \
+#      -f /etc/app.yaml
