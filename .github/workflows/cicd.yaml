@@ -40,7 +40,7 @@ jobs:
       - name: Install Python and pip
         run: |
           sudo apt-get update
-          sudo apt-get install -y python3 python3-pip
+          sudo apt-get install -y python3-full python3-venv
 
       - uses: actions/checkout@v4
 
@@ -48,13 +48,15 @@ jobs:
         shell: bash
         run: |
           echo ${{needs.ci.outputs.commit_id}}
-          pip3 install yq
+          python3 -m venv .venv
+          source .venv/bin/activate
+          pip install yq
           yq -Yi '.image.tag = "${{needs.ci.outputs.commit_id}}"' charts/go-one/values.yaml
 
       - name: Commit changes
         uses: EndBug/add-and-commit@v9
         with:
-          message: "Update values.yaml with comit ${{needs.ci.outputs.commit_id}}"
+          message: "Update values.yaml with commit ${{ needs.ci.outputs.commit_id }} [skip ci]"
 
       - name: Install Argo CD CLI
         run: |
