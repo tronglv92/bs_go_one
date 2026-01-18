@@ -2,7 +2,7 @@ replicaCount: 1
 image:
   repository: luongvantrong/go-one
   pullPolicy: IfNotPresent
-  tag: "e718a1"
+  tag: "b953ec"
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
