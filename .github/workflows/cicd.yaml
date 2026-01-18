@@ -35,11 +35,11 @@ jobs:
     steps:
       - name: Install Argo CD CLI
         run: |
-          curl -ksSL -o argocd https://argocd-server.argocd/download/argocd-linux-amd64
+          curl -sSL -o argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
           chmod +x argocd
           sudo mv argocd /usr/local/bin/argocd
 
-      - name: Argocd app sync
+      - name: Argocd Login
         shell: bash
         run: |
           argocd login argocd-server.argocd \
@@ -47,4 +47,10 @@ jobs:
             --grpc-web  \
             --username admin  \
             --password  ${{ secrets.ARGOCD_PASSWORD }}
-          argocd app sync go-one 
+         
+
+      - name: Sync argocd
+        shell: bash
+        run: |
+          argocd app sync go-one \
+           --server argocd-server.argocd
