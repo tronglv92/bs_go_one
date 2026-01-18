@@ -44,7 +44,6 @@ jobs:
         run: |
           echo ${{needs.ci.outputs.commit_id}}
           pip3 install yq
-          pip install yq
           yq -Yi '.image.tag = "${{needs.ci.outputs.commit_id}}"' charts/go-one/values.yaml
 
       - name: Commit changes
