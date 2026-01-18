@@ -52,6 +52,8 @@ jobs:
           source .venv/bin/activate
           pip install yq
           yq -Yi '.image.tag = "${{needs.ci.outputs.commit_id}}"' charts/go-one/values.yaml
+      - name: Cleanup venv
+        run: rm -rf .venv
 
       - name: Commit changes
         uses: EndBug/add-and-commit@v9
