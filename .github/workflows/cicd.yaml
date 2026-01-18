@@ -29,10 +29,28 @@ jobs:
         with:
           push: true
           tags: luongvantrong/go-one:${{ env.SHORT_SHA }}
+
+    outputs:
+      commit_id: ${{ env.SHORT_SHA }}
+
   cd:
     needs: ci
     runs-on: self-hosted
     steps:
+      - uses: actions/checkout@v4
+
+      - name: Modify values file
+        shell: bash
+        run: |
+          echo ${{needs.ci.outputs.commit_id}}
+          pip install yq
+          yq -Yi '.image.tag = "${{needs.ci.outputs.commit_id}}"' charts/go-one/values.yaml
+
+      - name: Commit changes
+        uses: EndBug/add-and-commit@v9
+        with:
+          message: "Update values.yaml with comit ${{needs.ci.outputs.commit_id}}"
+
       - name: Install Argo CD CLI
         run: |
           curl -sSL -o argocd https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
