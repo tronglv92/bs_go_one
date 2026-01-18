@@ -47,4 +47,5 @@ jobs:
             --grpc-web  \
             --username admin  \
             --password  ${{ secrets.ARGOCD_PASSWORD }}
-          sudo argocd app sync go-one
+          argocd app sync go-one \
+            --server argocd-server.argocd
